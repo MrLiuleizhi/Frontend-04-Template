@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <style>
+            div{
+                height: 100px;
+                width: 100px;
+                display: inline-block;
+                border-radius: 50px;
+                margin: 20px;
+                background-color: gray;
+            }
+            .green.light{
+                background-color: green;
+            }
+            .red.light{
+                background-color: red;
+            }
+            .yellow.light{
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="green"></div>
+        <div class="yellow"></div>
+        <div class="red"></div>
+        <button id="next">next</button>
+    </body>
+</html>
+<script>
+    function green(){
+    var lights = document.getElementsByTagName("div");
+    for(let i = 0; i<lights.length; i++){
+        lights[i].classList.remove("light");
+    }
+    document.getElementsByClassName("green")[0].classList.add("light");
+}
+function red(){
+    var lights = document.getElementsByTagName("div");
+    for(let i = 0; i<lights.length; i++){
+        lights[i].classList.remove("light");
+    }
+    document.getElementsByClassName("red")[0].classList.add("light");
+}
+function yellow(){
+    var lights = document.getElementsByTagName("div");
+    for(let i = 0; i<lights.length; i++){
+        lights[i].classList.remove("light");
+    }
+    document.getElementsByClassName("yellow")[0].classList.add("light");
+}
+function sleep(t){
+    return new Promise((resolve,reject) => {
+        setTimeout(resolve,t);
+    })
+}
+function happen(element, eventName){
+    return new Promise((resolve, reject) => {
+        element.addEventListener(eventName, resolve, {once:true});
+    })
+}
+async function go(){
+   while(true){
+    /*green();
+    await sleep(1000);
+    yellow();
+    await sleep(200);
+    red();
+    await sleep(200);
+    */
+   green();
+   await happen(document.getElementById("next"),"click");
+   yellow();
+   await happen(document.getElementById("next"),"click");
+   red();
+   await happen(document.getElementById("next"),"click");
+   }
+}
+go();
+</script>
