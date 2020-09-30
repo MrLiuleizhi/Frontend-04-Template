@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <style>
+            .cell{
+                height: 10px;
+                width: 10px;
+                display: inline-block;
+                border-right: 1px solid #fff;
+                border-top: 1px solid #fff;
+                vertical-align: top;
+            }
+            #container{
+                width:1100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+        <button onclick="localStorage['map'] = JSON.stringify(map)">Save</button>
+    </body>
+</html>
+<script>
+    let map = localStorage['map'] ? JSON.parse(localStorage['map']) : Array(10000).fill(0);
+    let container = document.getElementById("container");
+    let mousedown = false;
+    let clear = false;
+    document.addEventListener("mousedown", e => {
+        mousedown = true;
+        clear = (e.which === 3);
+    });
+    document.addEventListener("mouseup", () => mousedown =false);
+
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    for(let x = 0; x < 100; x++){
+        for(let y = 0; y < 100; y++){
+            let cell = document.createElement("div");
+            cell.classList.add("cell");
+                        cell.style.backgroundColor = "gray";
+            if(map[100*y+x] === 1)
+                cell.style.backgroundColor = 'orange';
+           
+            cell.addEventListener("mousemove", () => {
+                if(mousedown){
+                    if(clear){
+                        cell.style.backgroundColor = "gray";
+                        map[100*y+x] = 0;
+                    }else{
+                        cell.style.backgroundColor = "orange";
+                        map[100*y+x] = 1;
+                    }
+                }
+            })
+            container.appendChild(cell);
+        }
+    }
+</script>
